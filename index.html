@@ -1,0 +1,654 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career Research Project</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f0e6ff; color: #1a1a2e; font-size: 17px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #ff6b6b, #ffa500, #ffdd57, #00c9a7, #845ec2); background-size: 300% 300%; animation: gradShift 8s ease infinite; padding: 36px 24px 30px; text-align: center; position: relative; overflow: hidden; }
+  @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+  .hero::before { content:'⭐'; position:absolute; top:14px; left:5%; font-size:28px; opacity:0.5; animation: float 3s ease-in-out infinite; }
+  .hero::after  { content:'🏆'; position:absolute; top:10px; right:5%; font-size:30px; opacity:0.5; animation: float 3s ease-in-out 1.5s infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .hero-badge { display:inline-block; background:#fff; color:#845ec2; border-radius:30px; padding:5px 18px; font-size:13px; font-weight:900; letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; box-shadow:0 3px 10px rgba(0,0,0,0.15); }
+  .hero h1 { font-size:32px; font-weight:900; color:#fff; text-shadow:0 3px 8px rgba(0,0,0,0.2); margin-bottom:6px; }
+  .hero .subtitle { font-size:15px; color:#fff; font-weight:700; text-shadow:0 1px 4px rgba(0,0,0,0.2); margin-bottom:4px; }
+  .hero .designer { font-size:13px; color:rgba(255,255,255,0.85); font-style:italic; font-weight:600; margin-bottom:20px; }
+  .student-bar { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .student-bar label { font-size:12px; font-weight:800; color:#fff; display:block; margin-bottom:4px; text-align:left; text-shadow:0 1px 3px rgba(0,0,0,0.2); }
+  .student-bar input { padding:9px 14px; border-radius:30px; border:3px solid #fff; font-size:14px; font-weight:700; width:200px; background:rgba(255,255,255,0.95); color:#1a1a2e; font-family:inherit; }
+
+  /* LAYOUT */
+  .main { max-width:920px; margin:0 auto; padding:24px 16px 70px; }
+
+  /* MISSION CARDS */
+  .overview { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:28px; }
+  .ov-card { border-radius:20px; padding:20px 16px; text-align:center; box-shadow:0 6px 20px rgba(0,0,0,0.12); }
+  .ov-card:nth-child(1) { background:linear-gradient(135deg,#ff6b6b,#ff8e53); }
+  .ov-card:nth-child(2) { background:linear-gradient(135deg,#845ec2,#d65db1); }
+  .ov-card:nth-child(3) { background:linear-gradient(135deg,#00c9a7,#0081cf); }
+  .ov-icon { font-size:32px; margin-bottom:8px; }
+  .ov-card h3 { font-size:14px; font-weight:900; color:#fff; text-shadow:0 1px 4px rgba(0,0,0,0.2); }
+  .ov-card p  { font-size:12px; color:rgba(255,255,255,0.9); margin-top:4px; font-weight:700; }
+  .ov-card .xp-badge { display:inline-block; background:rgba(255,255,255,0.3); color:#fff; font-size:11px; font-weight:900; border-radius:20px; padding:2px 10px; margin-top:8px; }
+
+  /* STEPS */
+  .step { border-radius:22px; margin-bottom:22px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+  .step-header { display:flex; align-items:center; gap:14px; padding:18px 22px; cursor:pointer; user-select:none; }
+  .step-num { width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:900; color:#fff; flex-shrink:0; box-shadow:0 3px 8px rgba(0,0,0,0.25); }
+  .step-header h2 { font-size:19px; font-weight:900; flex:1; color:#fff; text-shadow:0 1px 4px rgba(0,0,0,0.15); }
+  .step-badge { background:rgba(255,255,255,0.3); color:#fff; font-size:12px; font-weight:900; padding:4px 12px; border-radius:20px; white-space:nowrap; }
+  .toggle-icon { font-size:20px; color:rgba(255,255,255,0.8); transition:transform 0.3s; }
+  .step-body { padding:0 22px 22px; background:#fff; }
+
+  .step-1 .step-header { background:linear-gradient(135deg,#845ec2,#d65db1); }
+  .step-1 .step-num   { background:#fff; color:#845ec2; }
+  .step-2 .step-header { background:linear-gradient(135deg,#ff6b6b,#ff8e53); }
+  .step-2 .step-num   { background:#fff; color:#ff6b6b; }
+  .step-3 .step-header { background:linear-gradient(135deg,#0081cf,#00c9a7); }
+  .step-3 .step-num   { background:#fff; color:#0081cf; }
+  .step-4 .step-header { background:linear-gradient(135deg,#f9c74f,#f8961e); }
+  .step-4 .step-num   { background:#fff; color:#f8961e; }
+
+  /* INSTRUCTION */
+  .instruction { background:#f5f0ff; border-left:5px solid #845ec2; border-radius:0 14px 14px 0; padding:13px 16px; margin:16px 0 14px; font-size:14px; color:#3a2060; line-height:1.8; font-weight:700; }
+  .instruction strong { color:#845ec2; }
+
+  /* ALERT BOXES */
+  .warning-box { background:#fff3e0; border:3px solid #ff8e53; border-radius:16px; padding:14px 16px; margin:0 0 14px; display:flex; gap:12px; }
+  .warning-box .warn-icon { font-size:24px; flex-shrink:0; }
+  .warning-box p { font-size:14px; color:#7c3b00; line-height:1.7; font-weight:700; }
+  .warning-box strong { color:#e05c00; }
+  .synthesis-box { background:#e8fff6; border:3px solid #00c9a7; border-radius:16px; padding:14px 16px; margin:0 0 16px; display:flex; gap:12px; }
+  .synthesis-box .syn-icon { font-size:24px; flex-shrink:0; }
+  .synthesis-box p { font-size:14px; color:#004d3a; line-height:1.7; font-weight:700; }
+  .synthesis-box strong { color:#008060; }
+
+  /* WEBSITE LINKS */
+  .websites { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+  .web-link { display:flex; align-items:center; gap:7px; padding:10px 18px; border-radius:30px; font-size:14px; font-weight:900; text-decoration:none; color:white; transition:transform 0.2s, box-shadow 0.2s; box-shadow:0 4px 10px rgba(0,0,0,0.18); }
+  .web-link:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 8px 18px rgba(0,0,0,0.22); }
+  .web-link.ce { background:linear-gradient(135deg,#845ec2,#d65db1); }
+  .web-link.jb { background:linear-gradient(135deg,#ff6b6b,#ff8e53); }
+  .web-link.pr { background:linear-gradient(135deg,#00c9a7,#0081cf); }
+
+  /* JOB TABS */
+  .job-tabs { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+  .job-tab { padding:10px 20px; border-radius:30px; border:3px solid #e0d4f7; background:#f5f0ff; cursor:pointer; font-size:14px; font-weight:800; color:#845ec2; transition:all 0.2s; font-family:inherit; }
+  .job-tab.active { background:linear-gradient(135deg,#845ec2,#d65db1); border-color:transparent; color:#fff; box-shadow:0 4px 12px rgba(132,94,194,0.4); }
+  .job-tab:hover:not(.active) { border-color:#845ec2; transform:translateY(-2px); }
+  .job-panel { display:none; }
+  .job-panel.active { display:block; }
+
+  /* WRITING TIPS */
+  .writing-tips { background:linear-gradient(135deg,#f5f0ff,#fff0fa); border:2px dashed #d65db1; border-radius:14px; padding:12px 16px; margin-bottom:10px; }
+  .writing-tips h4 { font-size:13px; font-weight:900; color:#845ec2; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px; }
+  .writing-tips ul { list-style:none; font-size:13px; color:#4a3060; line-height:2.1; font-weight:700; }
+  .writing-tips ul li::before { content:'💡 '; }
+
+  /* NOTES TABLE */
+  .notes-table { width:100%; border-collapse:collapse; margin-top:6px; border-radius:16px; overflow:hidden; }
+  .notes-table th { padding:12px 16px; font-size:14px; text-align:left; font-weight:900; color:#fff; }
+  .notes-table td { padding:0; border:2px solid #f0e6ff; vertical-align:top; }
+  .notes-table td:first-child { padding:12px 14px; font-size:14px; font-weight:900; width:175px; }
+  .notes-table .icon { font-size:18px; margin-right:5px; }
+  .notes-table textarea { width:100%; border:none; padding:12px 14px; font-family:inherit; font-size:14px; resize:vertical; color:#1a1a2e; min-height:130px; line-height:1.7; font-weight:600; }
+  .notes-table textarea:focus { outline:none; }
+  .notes-table textarea::placeholder { color:#c0a8e0; font-style:italic; font-weight:600; }
+
+  .job-kt .notes-table th { background:linear-gradient(135deg,#845ec2,#d65db1); }
+  .job-kt .notes-table td:first-child { background:#f5f0ff; color:#845ec2; }
+  .job-kt .notes-table textarea { background:#fdf9ff; }
+  .job-ac .notes-table th { background:linear-gradient(135deg,#ff6b6b,#ff8e53); }
+  .job-ac .notes-table td:first-child { background:#fff3ee; color:#e05c00; }
+  .job-ac .notes-table textarea { background:#fffaf7; }
+  .job-nu .notes-table th { background:linear-gradient(135deg,#00c9a7,#0081cf); }
+  .job-nu .notes-table td:first-child { background:#e8fff6; color:#00705c; }
+  .job-nu .notes-table textarea { background:#f5fffc; }
+
+  /* WORD COUNT */
+  .word-count { font-size:12px; padding:4px 14px 10px; display:flex; justify-content:space-between; align-items:center; font-weight:800; }
+  .wc-num.ok  { color:#00a878; }
+  .wc-num.low { color:#e05c00; }
+  .wc-bar-wrap { width:120px; height:8px; background:#f0e6ff; border-radius:20px; overflow:hidden; }
+  .wc-bar { height:100%; border-radius:20px; transition:width 0.3s, background 0.3s; }
+
+  /* STEP 2 */
+  .job-choices { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:16px 0; }
+  .job-choice { border:3px solid #e0d4f7; border-radius:20px; padding:20px 14px; text-align:center; cursor:pointer; transition:all 0.25s; background:#fdf9ff; }
+  .job-choice:hover { border-color:#d65db1; transform:translateY(-4px); box-shadow:0 8px 20px rgba(214,93,177,0.2); }
+  .job-choice.selected { border-color:#d65db1; background:linear-gradient(135deg,#f5f0ff,#fff0fa); box-shadow:0 8px 24px rgba(132,94,194,0.25); }
+  .job-choice .job-emoji { font-size:38px; margin-bottom:10px; }
+  .job-choice h3 { font-size:15px; font-weight:900; color:#3a2060; }
+  .choice-check { display:none; font-size:22px; margin-top:8px; }
+  .job-choice.selected .choice-check { display:block; }
+  .why-box { margin-top:14px; }
+  .why-box label { font-size:14px; font-weight:800; color:#3a2060; display:block; margin-bottom:8px; }
+  .why-box textarea { width:100%; border:3px solid #e0d4f7; border-radius:14px; padding:12px 14px; font-family:inherit; font-size:14px; font-weight:600; resize:none; height:90px; color:#1a1a2e; }
+  .why-box textarea:focus { outline:none; border-color:#845ec2; }
+
+  /* STEP 3 */
+  .tools { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0; }
+  .tool-card { border:3px solid #cceeff; border-radius:18px; padding:16px 10px; text-align:center; cursor:pointer; transition:all 0.2s; background:#f0faff; }
+  .tool-card:hover { border-color:#0081cf; transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,129,207,0.2); }
+  .tool-card.selected { border-color:#0081cf; background:linear-gradient(135deg,#e8f8ff,#e8fff6); }
+  .tool-card .tool-icon { font-size:32px; margin-bottom:8px; }
+  .tool-card h3 { font-size:13px; font-weight:900; color:#004d70; }
+  .tool-link { display:inline-flex; align-items:center; gap:4px; margin-top:6px; font-size:12px; color:#0081cf; text-decoration:none; font-weight:800; }
+  .poster-tips { background:linear-gradient(135deg,#e8f8ff,#e8fff6); border:3px solid #00c9a7; border-radius:16px; padding:14px 18px; margin-top:16px; }
+  .poster-tips h4 { font-size:14px; font-weight:900; color:#005f4a; margin-bottom:10px; }
+  .poster-tips ul { list-style:none; font-size:14px; line-height:2.1; color:#1a3a30; font-weight:700; }
+  .poster-tips ul li::before { content:'✅  '; }
+
+  /* STEP 4 */
+  .submit-steps { display:grid; gap:14px; margin-top:16px; }
+  .submit-step { display:flex; gap:14px; align-items:flex-start; background:linear-gradient(135deg,#fff8e1,#fff3e0); border:3px solid #f8961e; border-radius:18px; padding:18px; }
+  .submit-step .ss-num { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#f9c74f,#f8961e); color:#fff; font-size:18px; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 3px 8px rgba(248,150,30,0.35); }
+  .submit-step .ss-body h4 { font-size:15px; font-weight:900; color:#7c3b00; margin-bottom:6px; }
+  .submit-step .ss-body p  { font-size:14px; color:#5a2e00; line-height:1.7; font-weight:700; }
+
+  /* CHECKLIST */
+  .checklist-panel { background:#fff; border-radius:22px; box-shadow:0 8px 24px rgba(0,0,0,0.10); padding:22px; margin-bottom:20px; border-top:7px solid #f9c74f; }
+  .checklist-panel h3 { font-size:18px; font-weight:900; color:#7c3b00; margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+  .cl-item { display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:2px dashed #fff8e1; }
+  .cl-item:last-child { border-bottom:none; }
+  .cl-item input[type="checkbox"] { width:22px; height:22px; margin-top:2px; accent-color:#f9c74f; cursor:pointer; flex-shrink:0; }
+  .cl-item label { font-size:14px; color:#3a2000; cursor:pointer; line-height:1.6; font-weight:700; }
+  .cl-item label.done { text-decoration:line-through; color:#b0a080; }
+  .progress-bar-wrap { background:#f0e6ff; border-radius:30px; height:14px; margin:8px 0 4px; overflow:hidden; }
+  .progress-bar { height:100%; border-radius:30px; background:linear-gradient(90deg,#f9c74f,#f8961e); transition:width 0.4s; }
+  .progress-label { font-size:13px; color:#7c6000; text-align:right; font-weight:800; }
+
+  /* CRITERIA */
+  .criteria-panel { background:#fff; border-radius:22px; box-shadow:0 8px 24px rgba(0,0,0,0.10); padding:22px; margin-bottom:22px; border-top:7px solid #845ec2; }
+  .criteria-panel h3 { font-size:18px; font-weight:900; color:#3a2060; margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+  .criteria-table { width:100%; border-collapse:collapse; font-size:14px; border-radius:14px; overflow:hidden; }
+  .criteria-table th { background:linear-gradient(135deg,#845ec2,#d65db1); color:#fff; padding:12px 14px; text-align:left; font-weight:900; }
+  .criteria-table td { padding:11px 14px; border-bottom:2px solid #f0e6ff; color:#3a2060; font-weight:700; }
+  .criteria-table tr:nth-child(even) td { background:#fdf9ff; }
+  .criteria-table tr:last-child td { border-bottom:none; }
+
+  /* BOTTOM BUTTONS */
+  .btn-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:30px; }
+  .action-btn { padding:13px 28px; border-radius:30px; border:none; font-size:15px; font-weight:900; color:#fff; cursor:pointer; font-family:inherit; box-shadow:0 6px 18px rgba(0,0,0,0.2); transition:transform 0.2s, box-shadow 0.2s; }
+  .action-btn:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,0.25); }
+  .btn-print { background:linear-gradient(135deg,#845ec2,#d65db1); }
+  .btn-save  { background:linear-gradient(135deg,#00c9a7,#0081cf); }
+  .btn-load  { background:linear-gradient(135deg,#f9c74f,#f8961e); }
+
+  /* MODAL */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000; align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal-box { background:#fff; border-radius:22px; padding:28px; max-width:560px; width:92%; box-shadow:0 16px 48px rgba(0,0,0,0.25); position:relative; }
+  .modal-close { position:absolute; top:14px; right:18px; background:none; border:none; font-size:22px; cursor:pointer; color:#888; }
+  .modal-box h3 { font-size:18px; font-weight:900; color:#845ec2; margin-bottom:10px; }
+  .modal-box p  { font-size:14px; color:#555; font-weight:600; margin-bottom:12px; line-height:1.6; }
+  .modal-box textarea { width:100%; height:200px; border:2px solid #d4b8f0; border-radius:12px; padding:12px; font-family:monospace; font-size:12px; resize:vertical; color:#1a1a2e; }
+  .modal-actions { display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
+  .modal-btn { flex:1; padding:12px; border-radius:30px; border:none; font-size:15px; font-weight:900; color:#fff; cursor:pointer; font-family:inherit; background:linear-gradient(135deg,#845ec2,#d65db1); }
+  .modal-btn-cancel { padding:12px 20px; border-radius:30px; border:2px solid #ddd; background:#fff; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit; color:#555; }
+
+  /* TOAST */
+  #toast { display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#1a1a2e; color:#fff; padding:14px 24px; border-radius:30px; font-size:14px; font-weight:700; z-index:9999; box-shadow:0 6px 24px rgba(0,0,0,0.3); max-width:90%; text-align:center; }
+
+  /* PRINT */
+  @media print {
+    body { background:white; font-size:13px; }
+    .hero, .step-header, .ov-card, .warning-box, .synthesis-box, .poster-tips, .submit-step, .checklist-panel, .criteria-panel { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+    .btn-row, .job-tabs, .writing-tips, .toggle-icon, .modal-overlay, #toast { display:none !important; }
+    .step-body { display:block !important; }
+    .job-panel { display:block !important; }
+    .step { box-shadow:none; border:1px solid #ddd; page-break-inside:avoid; }
+    .notes-table textarea { border:1px solid #ccc; min-height:60px; resize:none; }
+  }
+
+  @media (max-width:600px) {
+    .overview { grid-template-columns:1fr; }
+    .job-choices { grid-template-columns:1fr; }
+    .tools { grid-template-columns:repeat(2,1fr); }
+    .hero h1 { font-size:24px; }
+    .student-bar input { width:160px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">GED 100 · Career Research Activity</div>
+  <h1>🔍 Career Research Project</h1>
+  <p class="subtitle">Research 3 jobs · Choose 1 · Create a poster · Submit your work</p>
+  <p class="designer">✨ Designed by Nazila Motahari</p>
+  <div class="student-bar">
+    <div><label>👤 Your Name</label><input type="text" id="studentName" placeholder="Write your name here"></div>
+    <div><label>📅 Date</label><input type="date" id="studentDate"></div>
+    <div><label>🏫 Section</label><input type="text" id="studentSection" placeholder="e.g. Section A"></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- MISSION CARDS -->
+  <div class="overview">
+    <div class="ov-card"><div class="ov-icon">🌐</div><h3>3 Websites to Use</h3><p>CareerExplorer · Job Bank · Prospects</p><div class="xp-badge">+30 XP</div></div>
+    <div class="ov-card"><div class="ov-icon">💼</div><h3>3 Jobs to Research</h3><p>Teacher · Accountant · Nurse</p><div class="xp-badge">+40 XP</div></div>
+    <div class="ov-card"><div class="ov-icon">🎨</div><h3>1 Poster to Create</h3><p>Choose your favourite job</p><div class="xp-badge">+30 XP</div></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step step-1">
+    <div class="step-header" onclick="toggleStep('s1','icon-s1')">
+      <div class="step-num">1</div>
+      <h2>📚 Research the Jobs</h2>
+      <span class="step-badge">LEVEL 1</span>
+      <span class="toggle-icon" id="icon-s1">▼</span>
+    </div>
+    <div class="step-body" id="s1">
+      <div class="instruction"><strong>Mission:</strong> Visit the three websites below. Read about each job. Then write your notes in the tables. Write <strong>at least 100 words</strong> in each box.</div>
+      <div class="warning-box"><div class="warn-icon">⚠️</div><p><strong>Do NOT copy and paste!</strong> After you read the information on the websites, <strong>close the page</strong> and write the information <strong>in your own words</strong>. This is called <strong>paraphrasing</strong>. Copying text directly from a website is academic dishonesty and will not be accepted.</p></div>
+      <div class="synthesis-box"><div class="syn-icon">🔗</div><p><strong>Synthesise your research:</strong> Do not use only one website. Read <strong>2 or 3 websites</strong> and then <strong>combine the ideas together</strong> in your own paragraph. For example: if CareerExplorer says the job is rewarding and Prospects says it is well paid, write both ideas together in your own sentence.</p></div>
+      <div class="websites">
+        <a class="web-link ce" href="https://www.careerexplorer.com" target="_blank">🔗 CareerExplorer</a>
+        <a class="web-link jb" href="https://www.jobbank.gc.ca" target="_blank">🔗 Job Bank</a>
+        <a class="web-link pr" href="https://www.prospects.ac.uk" target="_blank">🔗 Prospects</a>
+      </div>
+      <div class="job-tabs">
+        <button class="job-tab active" onclick="showJob('kt',this)">👩‍🏫 Kindergarten Teacher</button>
+        <button class="job-tab" onclick="showJob('ac',this)">🧮 Accountant</button>
+        <button class="job-tab" onclick="showJob('nu',this)">🏥 Nurse</button>
+      </div>
+
+      <!-- KT -->
+      <div class="job-panel active job-kt" id="panel-kt">
+        <table class="notes-table"><tr><th colspan="2">👩‍🏫 Kindergarten Teacher – My Research Notes</th></tr>
+          <tr><td><span class="icon">📋</span>Job Description<br><span style="font-size:11px;font-weight:600;color:#a080c0">What does this person do?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Start: <em>A kindergarten teacher is someone who…</em></li><li>Who do they work with? What age?</li><li>What do they do every day?</li><li>Do they work with parents or other teachers?</li><li>Use at least 2 websites</li></ul></div>
+            <textarea id="kt-desc" oninput="countWords(this,'kt-desc-wc','kt-desc-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="kt-desc-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="kt-desc-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">⭐</span>Skills Needed<br><span style="font-size:11px;font-weight:600;color:#a080c0">What skills does this job need?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Name at least 5 different skills</li><li>For each skill, explain <em>why</em> it is important</li><li>Use: <em>also, in addition, furthermore</em></li><li>Think: personal, communication, practical skills</li></ul></div>
+            <textarea id="kt-skills" oninput="countWords(this,'kt-skills-wc','kt-skills-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="kt-skills-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="kt-skills-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">👍</span>Advantages<br><span style="font-size:11px;font-weight:600;color:#a080c0">What is good about this job?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>List at least 3–4 advantages</li><li>Think: salary, satisfaction, hours, opportunities</li><li>Use: <em>One advantage is… / Another benefit is…</em></li><li>Use more than one website</li></ul></div>
+            <textarea id="kt-adv" oninput="countWords(this,'kt-adv-wc','kt-adv-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="kt-adv-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="kt-adv-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">👎</span>Disadvantages<br><span style="font-size:11px;font-weight:600;color:#a080c0">What is difficult?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>List at least 3–4 disadvantages</li><li>Think: stress, hours, salary, physical demands</li><li>Use: <em>One disadvantage is… / However,…</em></li><li>Be honest — every job has challenges!</li></ul></div>
+            <textarea id="kt-dis" oninput="countWords(this,'kt-dis-wc','kt-dis-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="kt-dis-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="kt-dis-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+        </table>
+      </div>
+
+      <!-- AC -->
+      <div class="job-panel job-ac" id="panel-ac">
+        <table class="notes-table"><tr><th colspan="2">🧮 Accountant – My Research Notes</th></tr>
+          <tr><td><span class="icon">📋</span>Job Description<br><span style="font-size:11px;font-weight:600;color:#c07040">What does this person do?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Start: <em>An accountant is a professional who…</em></li><li>What do they manage or organise?</li><li>Who do they work for?</li><li>What tools or software do they use?</li><li>Use at least 2 websites</li></ul></div>
+            <textarea id="ac-desc" oninput="countWords(this,'ac-desc-wc','ac-desc-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="ac-desc-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="ac-desc-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">⭐</span>Skills Needed<br><span style="font-size:11px;font-weight:600;color:#c07040">What skills does this job need?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Name at least 5 skills</li><li>Think: numbers, organisation, computer, communication</li><li>Explain why each skill matters</li><li>Use: <em>also, in addition, furthermore</em></li></ul></div>
+            <textarea id="ac-skills" oninput="countWords(this,'ac-skills-wc','ac-skills-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="ac-skills-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="ac-skills-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">👍</span>Advantages<br><span style="font-size:11px;font-weight:600;color:#c07040">What is good about this job?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Think: salary, job security, career growth, environment</li><li>Can you work in many industries?</li><li>Use: <em>One advantage is… / Another benefit is…</em></li><li>Combine ideas from different websites</li></ul></div>
+            <textarea id="ac-adv" oninput="countWords(this,'ac-adv-wc','ac-adv-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="ac-adv-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="ac-adv-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">👎</span>Disadvantages<br><span style="font-size:11px;font-weight:600;color:#c07040">What is difficult?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Think: stress, deadlines, repetitive work, long hours</li><li>What happens if you make a mistake?</li><li>Does this job require continuous learning?</li><li>Use: <em>One challenge is… / A disadvantage is…</em></li></ul></div>
+            <textarea id="ac-dis" oninput="countWords(this,'ac-dis-wc','ac-dis-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="ac-dis-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="ac-dis-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+        </table>
+      </div>
+
+      <!-- NU -->
+      <div class="job-panel job-nu" id="panel-nu">
+        <table class="notes-table"><tr><th colspan="2">🏥 Nurse – My Research Notes</th></tr>
+          <tr><td><span class="icon">📋</span>Job Description<br><span style="font-size:11px;font-weight:600;color:#008060">What does this person do?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Start: <em>A nurse is a healthcare professional who…</em></li><li>Where do nurses work?</li><li>What do they do every day?</li><li>Do they work alone or in a team?</li><li>Use at least 2 websites</li></ul></div>
+            <textarea id="nu-desc" oninput="countWords(this,'nu-desc-wc','nu-desc-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="nu-desc-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="nu-desc-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">⭐</span>Skills Needed<br><span style="font-size:11px;font-weight:600;color:#008060">What skills does this job need?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Name at least 5 skills</li><li>Think: emotional, physical, communication, technical</li><li>Why is each skill important for a nurse?</li><li>Use: <em>also, in addition, another important skill is…</em></li></ul></div>
+            <textarea id="nu-skills" oninput="countWords(this,'nu-skills-wc','nu-skills-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="nu-skills-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="nu-skills-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">👍</span>Advantages<br><span style="font-size:11px;font-weight:600;color:#008060">What is good about this job?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Think: helping people, job security, global demand, salary</li><li>Is nursing available in many countries?</li><li>Use: <em>One advantage is… / Another benefit is…</em></li><li>Combine ideas from different websites</li></ul></div>
+            <textarea id="nu-adv" oninput="countWords(this,'nu-adv-wc','nu-adv-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="nu-adv-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="nu-adv-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+          <tr><td><span class="icon">👎</span>Disadvantages<br><span style="font-size:11px;font-weight:600;color:#008060">What is difficult?</span></td><td>
+            <div class="writing-tips"><h4>✍️ Tips</h4><ul><li>Think: long hours, night shifts, emotional stress, physical demands</li><li>How does this affect work-life balance?</li><li>Use: <em>One disadvantage is… / However,… / On the other hand,…</em></li><li>Is every disadvantage the same in all countries?</li></ul></div>
+            <textarea id="nu-dis" oninput="countWords(this,'nu-dis-wc','nu-dis-bar')" placeholder="Write your paragraph here in your own words…"></textarea>
+            <div class="word-count"><span>Words: <span class="wc-num low" id="nu-dis-wc">0</span> / 100 min</span><div class="wc-bar-wrap"><div class="wc-bar" id="nu-dis-bar" style="width:0%;background:#ff6b6b"></div></div></div>
+          </td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step step-2">
+    <div class="step-header" onclick="toggleStep('s2','icon-s2')">
+      <div class="step-num">2</div>
+      <h2>🌟 Choose Your Favourite Job</h2>
+      <span class="step-badge">LEVEL 2</span>
+      <span class="toggle-icon" id="icon-s2">▼</span>
+    </div>
+    <div class="step-body" id="s2">
+      <div class="instruction"><strong>Mission:</strong> Look at your research notes. Which job do you like most? Click on it to choose it. Then write 1–2 sentences to explain why.</div>
+      <div class="job-choices">
+        <div class="job-choice" onclick="selectJob(this,'Kindergarten Teacher')"><div class="job-emoji">👩‍🏫</div><h3>Kindergarten Teacher</h3><div class="choice-check">✅</div></div>
+        <div class="job-choice" onclick="selectJob(this,'Accountant')"><div class="job-emoji">🧮</div><h3>Accountant</h3><div class="choice-check">✅</div></div>
+        <div class="job-choice" onclick="selectJob(this,'Nurse')"><div class="job-emoji">🏥</div><h3>Nurse</h3><div class="choice-check">✅</div></div>
+      </div>
+      <div id="chosenJobLabel" style="display:none;font-size:15px;font-weight:900;color:#845ec2;margin-bottom:12px;">✅ You chose: <span id="chosenJobText"></span></div>
+      <div class="why-box">
+        <label>💬 Why did you choose this job? Write 1–2 sentences.</label>
+        <textarea id="whyJob" placeholder="I chose this job because…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step step-3">
+    <div class="step-header" onclick="toggleStep('s3','icon-s3')">
+      <div class="step-num">3</div>
+      <h2>🎨 Create Your Digital Poster</h2>
+      <span class="step-badge">LEVEL 3</span>
+      <span class="toggle-icon" id="icon-s3">▼</span>
+    </div>
+    <div class="step-body" id="s3">
+      <div class="instruction"><strong>Mission:</strong> Use your research notes to make a poster about your favourite job. Choose one tool below. Your poster must include: job title, description, skills, advantages, and disadvantages.</div>
+      <div class="tools">
+        <div class="tool-card" onclick="selectTool(this)"><div class="tool-icon">🎨</div><h3>Canva</h3><a class="tool-link" href="https://www.canva.com" target="_blank">Open ↗</a></div>
+        <div class="tool-card" onclick="selectTool(this)"><div class="tool-icon">✨</div><h3>Adobe Express</h3><a class="tool-link" href="https://express.adobe.com" target="_blank">Open ↗</a></div>
+        <div class="tool-card" onclick="selectTool(this)"><div class="tool-icon">📊</div><h3>Google Slides</h3><a class="tool-link" href="https://slides.google.com" target="_blank">Open ↗</a></div>
+        <div class="tool-card" onclick="selectTool(this)"><div class="tool-icon">💼</div><h3>PowerPoint Online</h3><a class="tool-link" href="https://office.com/launch/powerpoint" target="_blank">Open ↗</a></div>
+      </div>
+      <div class="poster-tips">
+        <h4>📌 Your poster must include:</h4>
+        <ul>
+          <li>Job title + a picture or icon</li>
+          <li>Short job description (2–3 sentences)</li>
+          <li>At least 3 skills</li>
+          <li>2 advantages and 2 disadvantages</li>
+          <li>Your name</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step step-4">
+    <div class="step-header" onclick="toggleStep('s4','icon-s4')">
+      <div class="step-num">4</div>
+      <h2>📤 Submit Your Work</h2>
+      <span class="step-badge">FINAL BOSS</span>
+      <span class="toggle-icon" id="icon-s4">▼</span>
+    </div>
+    <div class="step-body" id="s4">
+      <div class="instruction"><strong>Mission:</strong> Submit <strong>two things</strong> to your teacher on <strong>Microsoft Teams</strong>.</div>
+      <div class="submit-steps">
+        <div class="submit-step">
+          <div class="ss-num">1</div>
+          <div class="ss-body">
+            <h4>📄 Submit your Research Notes as a PDF</h4>
+            <p>Click <strong>🖨️ Prepare for Print</strong> below to expand everything, then press <strong>Ctrl+P</strong> (Windows) or <strong>Cmd+P</strong> (Mac) and choose <strong>Save as PDF</strong>. Upload the PDF to the Teams assignment.</p>
+          </div>
+        </div>
+        <div class="submit-step">
+          <div class="ss-num">2</div>
+          <div class="ss-body">
+            <h4>🎨 Submit your Digital Poster link</h4>
+            <p>Make sure your poster is set to <strong>public / anyone with the link can view</strong>. Copy the link and paste it in the <strong>comment box</strong> of the Teams assignment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="checklist-panel">
+    <h3>🏆 My Achievement Checklist</h3>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 8 achievements unlocked ⭐</div>
+    <div class="cl-item"><input type="checkbox" id="c1" onchange="updateProgress(this)"><label for="c1">🌐 I visited at least <strong>2 websites</strong> for each job.</label></div>
+    <div class="cl-item"><input type="checkbox" id="c2" onchange="updateProgress(this)"><label for="c2">✍️ I wrote my notes <strong>in my own words</strong> (no copy-paste).</label></div>
+    <div class="cl-item"><input type="checkbox" id="c3" onchange="updateProgress(this)"><label for="c3">💯 I wrote <strong>at least 100 words</strong> in each notes box.</label></div>
+    <div class="cl-item"><input type="checkbox" id="c4" onchange="updateProgress(this)"><label for="c4">🔗 I <strong>synthesised</strong> information from more than one website.</label></div>
+    <div class="cl-item"><input type="checkbox" id="c5" onchange="updateProgress(this)"><label for="c5">🌟 I chose <strong>1 favourite job</strong> and wrote why I chose it.</label></div>
+    <div class="cl-item"><input type="checkbox" id="c6" onchange="updateProgress(this)"><label for="c6">🎨 I created a <strong>digital poster</strong> with all required information.</label></div>
+    <div class="cl-item"><input type="checkbox" id="c7" onchange="updateProgress(this)"><label for="c7">🔓 My poster link is set to <strong>public / anyone can view</strong>.</label></div>
+    <div class="cl-item"><input type="checkbox" id="c8" onchange="updateProgress(this)"><label for="c8">📤 I uploaded my <strong>PDF to Teams</strong> and added my <strong>poster link</strong> in the comment.</label></div>
+  </div>
+
+  <!-- SUCCESS CRITERIA -->
+  <div class="criteria-panel">
+    <h3>🏅 Success Criteria</h3>
+    <table class="criteria-table">
+      <tr><th>Criteria</th><th>⭐ Good</th><th>⭐⭐ Very Good</th><th>⭐⭐⭐ Excellent</th></tr>
+      <tr><td>📋 Research Notes</td><td>Notes for 1–2 jobs</td><td>Notes for all 3 jobs, ~100 words each</td><td>100+ words each, multiple websites used</td></tr>
+      <tr><td>🔗 Synthesis</td><td>1 website only</td><td>2 websites used</td><td>Ideas from 2–3 websites clearly combined</td></tr>
+      <tr><td>💬 Language</td><td>Some correct sentences</td><td>Mostly clear, own words</td><td>Clear, correct, fully paraphrased</td></tr>
+      <tr><td>🎨 Poster</td><td>Basic information only</td><td>All required sections included</td><td>Organised, visual, easy to read</td></tr>
+      <tr><td>📤 Submission</td><td>1 item submitted</td><td>2 items submitted</td><td>PDF + working poster link on Teams</td></tr>
+    </table>
+  </div>
+
+  <!-- BOTTOM BUTTONS -->
+  <div class="btn-row">
+    <button class="action-btn btn-print" onclick="prepareForPrint()">🖨️ Prepare for Print</button>
+    <button class="action-btn btn-save"  onclick="openSaveModal()">💾 Save Progress</button>
+    <button class="action-btn btn-load"  onclick="openLoadModal()">📂 Load Progress</button>
+  </div>
+
+</div><!-- end main -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <textarea id="modalTextarea" placeholder=""></textarea>
+    <div class="modal-actions">
+      <button class="modal-btn" id="modalActionBtn"></button>
+      <button class="modal-btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+  /* ── INIT ── */
+  document.getElementById('studentDate').valueAsDate = new Date();
+
+  const TEXT_IDS = [
+    'studentName','studentSection',
+    'kt-desc','kt-skills','kt-adv','kt-dis',
+    'ac-desc','ac-skills','ac-adv','ac-dis',
+    'nu-desc','nu-skills','nu-adv','nu-dis',
+    'whyJob'
+  ];
+  const CHECK_IDS = ['c1','c2','c3','c4','c5','c6','c7','c8'];
+
+  /* ── TOGGLE STEPS ── */
+  function toggleStep(bodyId, iconId) {
+    const body = document.getElementById(bodyId);
+    const icon = document.getElementById(iconId);
+    const isOpen = body.style.display !== 'none' && body.style.display !== '';
+    body.style.display = isOpen ? 'none' : 'block';
+    icon.style.transform = isOpen ? 'rotate(-90deg)' : 'rotate(0deg)';
+  }
+
+  /* ── JOB TABS ── */
+  function showJob(job, btn) {
+    document.querySelectorAll('.job-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.job-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + job).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  /* ── CHOOSE JOB ── */
+  function selectJob(el, name) {
+    document.querySelectorAll('.job-choice').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('chosenJobText').textContent = name;
+    document.getElementById('chosenJobLabel').style.display = 'block';
+  }
+
+  /* ── SELECT TOOL ── */
+  function selectTool(el) {
+    document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  /* ── CHECKLIST ── */
+  function updateProgress(cb) {
+    cb.nextElementSibling.classList.toggle('done', cb.checked);
+    const done = document.querySelectorAll('.cl-item input:checked').length;
+    document.getElementById('progressBar').style.width = Math.round((done / 8) * 100) + '%';
+    document.getElementById('progressLabel').textContent = done + ' / 8 achievements unlocked ⭐';
+  }
+
+  /* ── WORD COUNT ── */
+  function countWords(el, wcId, barId) {
+    const words = el.value.trim() === '' ? 0 : el.value.trim().split(/\s+/).length;
+    const wc  = document.getElementById(wcId);
+    const bar = document.getElementById(barId);
+    wc.textContent = words;
+    bar.style.width = Math.min((words / 100) * 100, 100) + '%';
+    if (words >= 100)     { wc.className = 'wc-num ok';  bar.style.background = '#00a878'; }
+    else if (words > 60)  { wc.className = 'wc-num low'; bar.style.background = '#f9c74f'; }
+    else                  { wc.className = 'wc-num low'; bar.style.background = '#ff6b6b'; }
+  }
+
+  /* ── TOAST ── */
+  function showToast(msg, duration) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.style.display = 'none', duration || 6000);
+  }
+
+  /* ── PRINT ── */
+  function prepareForPrint() {
+    ['s1','s2','s3','s4'].forEach(id => document.getElementById(id).style.display = 'block');
+    document.querySelectorAll('.job-panel').forEach(p => p.style.display = 'block');
+    document.querySelectorAll('.toggle-icon').forEach(el => el.style.display = 'none');
+    showToast('✅ All sections are now expanded! Press Ctrl+P (Windows) or Cmd+P (Mac) → Save as PDF.', 8000);
+  }
+
+  /* ── COLLECT DATA ── */
+  function collectData() {
+    const data = { fields: {}, checks: {}, chosenJob: '' };
+    TEXT_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data.fields[id] = el.value;
+    });
+    data.fields['studentDate'] = document.getElementById('studentDate').value;
+    CHECK_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) data.checks[id] = el.checked;
+    });
+    const chosen = document.getElementById('chosenJobText');
+    if (chosen) data.chosenJob = chosen.textContent;
+    return data;
+  }
+
+  /* ── MODAL HELPERS ── */
+  function openModal()  { document.getElementById('modalOverlay').classList.add('open'); }
+  function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+  /* ── SAVE MODAL ── */
+  function openSaveModal() {
+    const json = JSON.stringify(collectData(), null, 2);
+    document.getElementById('modalTitle').textContent = '💾 Save Your Progress';
+    document.getElementById('modalDesc').textContent  = 'Select all the text below, copy it (Ctrl+C or Cmd+C), then paste it into a Notepad or Word file and save it on your device. To continue later, click Load Progress and paste it back.';
+    const ta = document.getElementById('modalTextarea');
+    ta.value    = json;
+    ta.readOnly = true;
+    const btn = document.getElementById('modalActionBtn');
+    btn.textContent = '📋 Copy to Clipboard';
+    btn.style.background = 'linear-gradient(135deg,#00c9a7,#0081cf)';
+    btn.onclick = () => {
+      ta.select();
+      document.execCommand('copy');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => { btn.textContent = '📋 Copy to Clipboard'; }, 2500);
+    };
+    openModal();
+    setTimeout(() => ta.select(), 150);
+  }
+
+  /* ── LOAD MODAL ── */
+  function openLoadModal() {
+    document.getElementById('modalTitle').textContent = '📂 Load Your Progress';
+    document.getElementById('modalDesc').textContent  = 'Open your saved file, copy all the text inside, then paste it into the box below and click Load.';
+    const ta = document.getElementById('modalTextarea');
+    ta.value    = '';
+    ta.readOnly = false;
+    ta.placeholder = 'Paste your saved progress text here…';
+    const btn = document.getElementById('modalActionBtn');
+    btn.textContent = '📂 Load Progress';
+    btn.style.background = 'linear-gradient(135deg,#f9c74f,#f8961e)';
+    btn.onclick = () => applyData(ta.value.trim());
+    openModal();
+  }
+
+  /* ── APPLY LOADED DATA ── */
+  function applyData(text) {
+    if (!text) { showToast('⚠️ Nothing to load — please paste your saved text first.'); return; }
+    try {
+      const data = JSON.parse(text);
+      Object.entries(data.fields || {}).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.value = val;
+          el.dispatchEvent(new Event('input'));
+        }
+      });
+      CHECK_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.checked = !!(data.checks || {})[id];
+        el.nextElementSibling.classList.toggle('done', el.checked);
+      });
+      if (data.chosenJob) {
+        document.getElementById('chosenJobText').textContent = data.chosenJob;
+        document.getElementById('chosenJobLabel').style.display = 'block';
+        document.querySelectorAll('.job-choice').forEach(c => {
+          c.classList.toggle('selected', c.querySelector('h3').textContent === data.chosenJob);
+        });
+      }
+      const done = document.querySelectorAll('.cl-item input:checked').length;
+      document.getElementById('progressBar').style.width = Math.round((done / 8) * 100) + '%';
+      document.getElementById('progressLabel').textContent = done + ' / 8 achievements unlocked ⭐';
+      closeModal();
+      showToast('✅ Progress loaded successfully!');
+    } catch (e) {
+      showToast('❌ Could not read the text. Make sure you copied the full saved text.');
+    }
+  }
+</script>
+</body>
+</html>
